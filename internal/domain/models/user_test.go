@@ -3,6 +3,7 @@ package models
 
 import (
 	"testing"
+	"time"
 )
 
 type userTest struct {
@@ -10,20 +11,23 @@ type userTest struct {
 	Username   string
 	Email      string
 	Password   string
-	CreatedAt  string
-	UpdatedAt  string
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
 	IsPositive bool
 }
 
 func TestUserValidation(t *testing.T) {
+	createdAt, _ := time.Parse(time.RFC3339, "2023-10-01T12:00:00Z")
+	updatedAt, _ := time.Parse(time.RFC3339, "2023-10-01T12:00:00Z")
+
 	tests := []userTest{
 		{
 			ID:         "6a387a08-e972-4fbf-9146-0a39510c6d5a",
 			Username:   "testuser",
 			Email:      "test.user@email.com",
 			Password:   "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
-			CreatedAt:  "2023-10-01T12:00:00Z",
-			UpdatedAt:  "2023-10-01T12:00:00Z",
+			CreatedAt:  createdAt,
+			UpdatedAt:  updatedAt,
 			IsPositive: true,
 		},
 		{
@@ -31,16 +35,16 @@ func TestUserValidation(t *testing.T) {
 			Username:   "testuser",
 			Email:      "test.user@email.com",
 			Password:   "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
-			CreatedAt:  "2023-10-01T12:00:00Z",
-			UpdatedAt:  "2023-10-01T12:00:00Z",
+			CreatedAt:  createdAt,
+			UpdatedAt:  updatedAt,
 			IsPositive: false,
 		},
 		{
 			ID:         "6a387a08-e972-4fbf-9146-0a39510c6d5a",
 			Email:      "test.user@email.com",
 			Password:   "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
-			CreatedAt:  "2023-10-01T12:00:00Z",
-			UpdatedAt:  "2023-10-01T12:00:00Z",
+			CreatedAt:  createdAt,
+			UpdatedAt:  updatedAt,
 			IsPositive: false,
 		},
 		{
@@ -48,8 +52,8 @@ func TestUserValidation(t *testing.T) {
 			Username:   "tu",
 			Email:      "test.user@email.com",
 			Password:   "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
-			CreatedAt:  "2023-10-01T12:00:00Z",
-			UpdatedAt:  "2023-10-01T12:00:00Z",
+			CreatedAt:  createdAt,
+			UpdatedAt:  updatedAt,
 			IsPositive: false,
 		},
 		{
@@ -57,16 +61,16 @@ func TestUserValidation(t *testing.T) {
 			Username:   "test_user_with_an_exceptionally_long_username_example_123",
 			Email:      "test.user@email.com",
 			Password:   "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
-			CreatedAt:  "2023-10-01T12:00:00Z",
-			UpdatedAt:  "2023-10-01T12:00:00Z",
+			CreatedAt:  createdAt,
+			UpdatedAt:  updatedAt,
 			IsPositive: false,
 		},
 		{
 			ID:         "6a387a08-e972-4fbf-9146-0a39510c6d5a",
 			Username:   "testuser",
 			Password:   "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
-			CreatedAt:  "2023-10-01T12:00:00Z",
-			UpdatedAt:  "2023-10-01T12:00:00Z",
+			CreatedAt:  createdAt,
+			UpdatedAt:  updatedAt,
 			IsPositive: false,
 		},
 		{
@@ -74,16 +78,16 @@ func TestUserValidation(t *testing.T) {
 			Username:   "testuser",
 			Email:      "test-user-email",
 			Password:   "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
-			CreatedAt:  "2023-10-01T12:00:00Z",
-			UpdatedAt:  "2023-10-01T12:00:00Z",
+			CreatedAt:  createdAt,
+			UpdatedAt:  updatedAt,
 			IsPositive: false,
 		},
 		{
 			ID:         "6a387a08-e972-4fbf-9146-0a39510c6d5a",
 			Username:   "testuser",
 			Email:      "test.user@email.com",
-			CreatedAt:  "2023-10-01T12:00:00Z",
-			UpdatedAt:  "2023-10-01T12:00:00Z",
+			CreatedAt:  createdAt,
+			UpdatedAt:  updatedAt,
 			IsPositive: false,
 		},
 		{
@@ -91,8 +95,8 @@ func TestUserValidation(t *testing.T) {
 			Username:   "testuser",
 			Email:      "test.user@email.com",
 			Password:   "unhashesdpassword",
-			CreatedAt:  "2023-10-01T12:00:00Z",
-			UpdatedAt:  "2023-10-01T12:00:00Z",
+			CreatedAt:  createdAt,
+			UpdatedAt:  updatedAt,
 			IsPositive: false,
 		},
 	}
