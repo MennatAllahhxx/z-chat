@@ -2,9 +2,21 @@
 package hub
 
 import (
+	"fmt"
 	"testing"
 	"time"
 )
+
+func waitForClients(h *Hub, expected int, timeout time.Duration) error {
+	deadline := time.Now().Add(timeout)
+	for time.Now().Before(deadline) {
+		if len(h.clients) == expected {
+			return nil
+		}
+		time.Sleep(time.Millisecond)
+	}
+	return fmt.Errorf("timeout waiting for %d clients; got %d", expected, len(h.clients))
+}
 
 func TestNewHub(t *testing.T) {
 	hub := newHub()
@@ -28,21 +40,22 @@ func TestHubRun(t *testing.T) {
 
 	hub.register <- client1
 	hub.register <- client2
-	time.Sleep(10 * time.Millisecond)
-
-	if len(hub.clients) != 2 {
-		t.Errorf("expected 2 clients registered, got %d", len(hub.clients))
+	if err := waitForClients(hub, 2, 100*time.Millisecond); err != nil {
+		t.Fatal(err)
 	}
 
 	hub.unregister <- client1
-	time.Sleep(10 * time.Millisecond)
-	if len(hub.clients) != 1 {
-		t.Errorf("expected 1 client after unregistering, got %d", len(hub.clients))
+	if err := waitForClients(hub, 1, 100*time.Millisecond); err != nil {
+		t.Fatal(err)
 	}
 
 	hub.broadcast <- []byte("test message")
-	msg := <-client2.send
-	if string(msg) != "test message" {
-		t.Errorf("expected 'test message', got '%s'", msg)
+	select {
+	case msg := <-client2.send:
+		if got := string(msg); got != "test message" {
+			t.Errorf("expected 'test message', got %q", got)
+		}
+	case <-time.After(100 * time.Millisecond):
+		t.Fatal("timeout waiting for broadcast message")
 	}
 }
