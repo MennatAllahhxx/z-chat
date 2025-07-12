@@ -19,7 +19,7 @@ func waitForClients(h *Hub, expected int, timeout time.Duration) error {
 }
 
 func TestNewHub(t *testing.T) {
-	hub := newHub()
+	hub := NewHub()
 	if hub == nil {
 		t.Fatal("expected new Hub instance, got nil")
 	}
@@ -32,8 +32,8 @@ func TestNewHub(t *testing.T) {
 }
 
 func TestHubRun(t *testing.T) {
-	hub := newHub()
-	go hub.run()
+	hub := NewHub()
+	go hub.Run()
 
 	client1 := &Client{hub: hub, send: make(chan []byte, 1)}
 	client2 := &Client{hub: hub, send: make(chan []byte, 1)}

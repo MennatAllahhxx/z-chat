@@ -10,7 +10,7 @@ type Hub struct {
 }
 
 // NewHub creates a new Hub instance.
-func newHub() *Hub {
+func NewHub() *Hub {
 	return &Hub{
 		broadcast:  make(chan []byte),
 		register:   make(chan *Client),
@@ -20,7 +20,7 @@ func newHub() *Hub {
 }
 
 // run starts the hub's main loop, handling client registration, unregistration, and message broadcasting.
-func (h *Hub) run() {
+func (h *Hub) Run() {
 	for {
 		select {
 		case client := <-h.register:
