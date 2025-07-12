@@ -19,7 +19,7 @@ func NewHub() *Hub {
 	}
 }
 
-// run starts the hub's main loop, handling client registration, unregistration, and message broadcasting.
+// Run starts the hub's main loop, handling client registration, unregistration, and message broadcasting.
 func (h *Hub) Run() {
 	for {
 		select {
