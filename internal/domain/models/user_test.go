@@ -17,8 +17,14 @@ type userTest struct {
 }
 
 func TestUserValidation(t *testing.T) {
-	createdAt, _ := time.Parse(time.RFC3339, "2023-10-01T12:00:00Z")
-	updatedAt, _ := time.Parse(time.RFC3339, "2023-10-01T12:00:00Z")
+	createdAt, err := time.Parse(time.RFC3339, "2023-10-01T12:00:00Z")
+	if err != nil {
+		t.Fatalf("failed to parse createdAt: %v", err)
+	}
+	updatedAt, err := time.Parse(time.RFC3339, "2023-10-01T12:00:00Z")
+	if err != nil {
+		t.Fatalf("failed to parse updatedAt: %v", err)
+	}
 
 	tests := []userTest{
 		{
